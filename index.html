@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>My Favorite Feeds by Mateusz Wilk</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <script type="text/template" id="item-template">
+        <label><%- title %></label><span class="destroy">x</span>
+    </script>
+
+    <script type="text/template" id="item-body-template">
+        <div id="tab-body"><%- content %></div>
+    </script>
+
+    <script type="text/template" id="tpl-json-feed-list-item">
+        <li><%= date %> <%= time %> | <%= title %></li>
+    </script>
+
+    <script type="text/template" id="tpl-rss-feed-list-item">
+        <li><%= publishedDate %> | <%= title %></li>
+    </script>
+
+    <script type="text/template" id="tpl-file-feed-list-item">
+        <li>HOST: <%= host %> WITH TRAFFIC: <%= traffic %></li>
+        <ul>
+            <% _.each(files, function(count, file) { %> <li>FILE : <%= file %> OCCURRED <%= count %> TIMES</li> <% }); %>
+        </ul>
+    </script>
+
+    <div id="app-main">
+        <ul id="tabs-list"></ul>
+        <div id="tabs-content"></div>
+		<div id="loader"></div>
+        <label>Tab name:</label>
+        <input type="text" id="tab-name">
+		<label>Feed type: </label>
+		<select id="tab-type" name="select">
+			<option value="">Please select type</option>
+            <option value="json">json</option>
+            <option value="rss">rss</option>
+            <option value="file">file</option>
+        </select>
+        <label>Feed url:</label>
+        <input id="feed-url" name="feed">
+        <button id="add-tab-btn">Add Tab</button>
+    </div>
+
+    <script src="libs/jquery-1.9.1.js"></script>
+    <!--jquery plugin for rss feeds-->
+    <script type="text/javascript" src="libs/jfeed.js"></script>
+    <!--<script src="libs/underscore.js"></script>-->
+    <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+    <!--<script src="libs/backbone.js"></script>-->
+    <script src="http://documentcloud.github.io/backbone/backbone.js"></script>
+    <script src="libs/backbone.localStorage.js"></script>
+    <script src="js/Models/tab.js"></script>
+    <script src="js/Models/tabcontent.js"></script>
+    <script src="js/Collections/tabs.js"></script>
+    <script src="js/Collections/tabscontent.js"></script>
+    <script src="js/Views/tabbody.js"></script>
+	<script src="js/Views/feedList.js"></script>
+	<script src="js/Views/feedListItem.js"></script>
+    <script src="js/Views/tab.js"></script>
+    <script src="js/Views/app.js"></script>
+    <script src="js/app.js"></script>
+	
+	<script>
+        $("select[name='select']").change(function(){
+                var val = ""
+                switch(this.value){
+                        case 'json':
+                                val = "http://rexxars.com/playground/testfeed/";
+                                break;
+                        case 'rss':
+                                val = "http://www.vg.no/rss/nyfront.php?frontId=1";
+                                break;
+                        case 'file':
+                                val = "varnish.log";
+                                break;
+                }
+                $("input[name='feed']").val(val);
+        })
+	</script>
+</body>
+</html>
